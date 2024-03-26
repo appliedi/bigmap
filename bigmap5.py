@@ -56,7 +56,7 @@ if address_input:
     location = geocode_with_rate_limiter(address_input)
     if location:
         # Update the connection string below with your actual PostgreSQL connection details
-        engine = create_engine('postgresql://postgres:Appliedi1234@ezpanel02.qitsolutions.com:5432/zipcodes')
+        engine = create_engine('postgresql://postgres:Appliedi1234@zipcodes_npi_registry:5432/zipcodes')
         radius_km = convert_miles_to_km(radius_input)
 
         # Fetch latitude and longitude for plotting

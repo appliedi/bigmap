@@ -37,11 +37,7 @@ def get_npi_records_within_radius(engine, lat, lon, radius_km):
     WHERE (nr."NPI Deactivation Date" IS NULL OR 
            (nr."NPI Reactivation Date" IS NOT NULL AND nr."NPI Reactivation Date" > nr."NPI Deactivation Date"));
     """
-    # Obtain a connection from the engine
-    with engine.connect() as connection:
-        # Execute the query using the connection
-        return pd.read_sql_query(query, connection, params=(lat, lon, lat, radius_km))
-
+    return pd.read_sql_query(query, engine, params=(lat, lon, lat, radius_km))
 
 
 

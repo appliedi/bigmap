@@ -1,6 +1,3 @@
-
-#         engine = create_engine('postgresql://postgres:Appliedi1234@ezpanel02.qitsolutions.com:5432/zipcodes')
- 
 import streamlit as st
 import pandas as pd
 import pydeck as pdk
@@ -37,10 +34,9 @@ def get_npi_records_within_radius(engine, lat, lon, radius_km):
     WHERE (nr."NPI Deactivation Date" IS NULL OR 
            (nr."NPI Reactivation Date" IS NOT NULL AND nr."NPI Reactivation Date" > nr."NPI Deactivation Date"));
     """
-    return pd.read_sql_query(query, engine, params=(lat, lon, lat, radius_km))
-
-
-
+    # Use a context manager to ensure the connection is closed after use
+    with engine.connect() as connection:
+        return pd.read_sql_query(query, connection, params=(lat, lon, lat, radius_km))
 
 def create_circle_polygon(latitude, longitude, radius_in_km, num_vertices=64):
     center = Point([longitude, latitude])
